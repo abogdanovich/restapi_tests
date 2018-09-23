@@ -110,6 +110,18 @@ def test_request_wrong_comment_url_resource():
     return url_object
 
 
+@pytest.fixture(scope="module")
+def test_request_comments_data():
+    comments_data = [
+        'id labore ex et quam laborum',
+        'quo vero reiciendis velit similique earum',
+        'odio adipisci rerum aut animi',
+        'alias odio sit',
+        'vero eaque aliquid doloribus et culpa',
+    ]
+    return comments_data
+
+
 @pytest.fixture(scope="session")
 def blog_object(request):
     """create a basic class"""
