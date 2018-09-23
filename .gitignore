@@ -4,3 +4,6 @@ lib
 lib64
 pyvenv.cfg
 pip-selfcheck.json
+tests/logs/*.log
+__pycache__
+tests/__pycache__

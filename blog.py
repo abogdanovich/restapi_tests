@@ -3,7 +3,9 @@ https://jsonplaceholder.typicode.com/posts
 https://jsonplaceholder.typicode.com/posts/<id>
 https://jsonplaceholder.typicode.com/posts/<id>/comments
 Last updates: 9/23/18
+author: Alex Bogdanovich
 """
+# -*- coding: utf-8 -*-
 
 import logging
 from os import path
@@ -24,15 +26,15 @@ class Blog(object):
     # Init logger for common messages
     logger = logging.getLogger('Common')
 
-    def __init__(self, log_name):
+    def __init__(self, log_name='restapi_test'):
         """Init func with logging setup"""
 
         log_path = path.join(self.log_dir, '{name}_{time}.log'.format(
             name=log_name, time=strftime(self.time_format)
+            )
         )
-                             )
 
-        if self.loging_level.upper() == 'DEBUG':
+        if self.logging_level.upper() == 'DEBUG':
             self.logger.setLevel(logging.DEBUG)
         else:
             self.logger.setLevel(logging.INFO)
@@ -49,30 +51,43 @@ class Blog(object):
         file_handler.setFormatter(logging.Formatter('%(asctime)s %(message)s'))
         self.logger.addHandler(file_handler)
 
-        self.log('info', 'Logging is started {level}'.format(level=self.loging_level))
-
-    def log(self, _level, _str):
+    def log(self, _level='info', _str=None):
         """Logging func to write logging"""
 
-        if _level == 'info':
-            self.logger.info(_str)
-        else:
+        if _level == 'error':
             self.logger.error(_str)
+        else:
+            self.logger.info(_str)
 
-    def get_posts(self):
-        """get all posts"""
-        pass
+    def get_url(self, dto):
+        """get url data"""
+        if dto['method'] == 'post':
+            return requests.post(url=dto['url'], headers=dto['headers'], data=dto['payload'])
+        else:
+            return requests.get(url=dto['url'], headers=dto['headers'], data=dto['payload'])
 
-    def get_post(self):
-        """get unique post"""
-        pass
-
-    def get_post_comments(self):
-        """get all comments for post"""
-        pass
 
 def main():
     """main func to create class instance"""
+
+    # self checking for this unit
+
+    blog = Blog()
+    url_object = {
+        'method': 'get',
+        'url': 'http://google.com',
+        'headers': '',
+        'payload': {}
+    }
+
+    blog.log('info', 'self checking with google.com')
+    page = blog.get_url(url_object)
+    blog.log('info', 'request google.com > {}'.format(page.status_code))
+
+    if page.status_code == 200:
+        blog.log('info', 'google page is successfully transffered')
+    else:
+        blog.log('info', 'something is not OK with google :) ')
 
 
 if __name__ == '__main__':
