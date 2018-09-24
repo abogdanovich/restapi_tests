@@ -1,19 +1,16 @@
-""" Configuration file for 'Pytest'.
-    More info about conftest.py:
-    https://docs.pytest.org/en/2.7.3/plugins.html?highlight
-
-    ---------------------------------------------------------------------------
-    Conftest content
-    ---------------------------------------------------------------------------
-    TODO: add pytest fixtures
+"""Configuration file for 'Pytest'
+Last updates: 9/24/18
+author: Alex Bogdanovich
 """
 # -*- coding: utf-8 -*-
+
 import pytest
 from blog import Blog
 
 
 @pytest.fixture(scope="module")
 def test_get_status_code_200_resource():
+    """test data for simple request"""
     url_object = {
         'method': 'get',
         'url': 'https://jsonplaceholder.typicode.com/posts',
@@ -22,8 +19,10 @@ def test_get_status_code_200_resource():
     }
     return url_object
 
+
 @pytest.fixture(scope="module")
 def test_send_post_request_resource():
+    """post data for request"""
     url_object = {
         'method': 'post',
         'url': 'https://jsonplaceholder.typicode.com/posts',
@@ -35,6 +34,7 @@ def test_send_post_request_resource():
 
 @pytest.fixture(scope="module")
 def test_send_unknown_payload_resource():
+    """unknown data for payload"""
     url_object = {
         'method': 'get',
         'url': 'https://jsonplaceholder.typicode.com/posts',
@@ -46,6 +46,7 @@ def test_send_unknown_payload_resource():
 
 @pytest.fixture(scope="module")
 def test_wrong_request_url_resource():
+    """data for wrong request"""
     url_object = {
         'method': 'get',
         'url': 'https://jsonplaceholder.typicode.com/posts/abrakadabra',
@@ -57,6 +58,7 @@ def test_wrong_request_url_resource():
 
 @pytest.fixture(scope="module")
 def test_get_known_id_resource():
+    """simple request to get post data"""
     url_object = {
         'method': 'get',
         'url': 'https://jsonplaceholder.typicode.com/posts/1',
@@ -68,6 +70,7 @@ def test_get_known_id_resource():
 
 @pytest.fixture(scope="module")
 def test_get_unknown_id_resource():
+    """data for invalid post id"""
     url_object = {
         'method': 'get',
         'url': 'https://jsonplaceholder.typicode.com/posts/666',
@@ -79,6 +82,7 @@ def test_get_unknown_id_resource():
 
 @pytest.fixture(scope="module")
 def test_request_wrong_url_resource():
+    """data for invalid post request url"""
     url_object = {
         'method': 'get',
         'url': 'https://jsonplaceholder.typicode.com/posts/1/test',
@@ -89,7 +93,8 @@ def test_request_wrong_url_resource():
 
 
 @pytest.fixture(scope="module")
-def test_get_known_comment_id_resource():
+def test_get_comment_id_resource():
+    """get all comments for simple post"""
     url_object = {
         'method': 'get',
         'url': 'https://jsonplaceholder.typicode.com/posts/1/comments',
@@ -100,7 +105,8 @@ def test_get_known_comment_id_resource():
 
 
 @pytest.fixture(scope="module")
-def test_request_wrong_comment_url_resource():
+def request_wrong_comment_url_res():
+    """wrong url for post comments"""
     url_object = {
         'method': 'get',
         'url': 'https://jsonplaceholder.typicode.com/posts/1/comments/test',
@@ -110,21 +116,9 @@ def test_request_wrong_comment_url_resource():
     return url_object
 
 
-@pytest.fixture(scope="module")
-def test_request_comments_data():
-    comments_data = [
-        'id labore ex et quam laborum',
-        'quo vero reiciendis velit similique earum',
-        'odio adipisci rerum aut animi',
-        'alias odio sit',
-        'vero eaque aliquid doloribus et culpa',
-    ]
-    return comments_data
-
-
 @pytest.fixture(scope="session")
 def blog_object(request):
-    """create a basic class"""
+    """create an object of basic class"""
     blog = Blog('unit_testing')
     return blog
 

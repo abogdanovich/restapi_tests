@@ -2,7 +2,7 @@
 https://jsonplaceholder.typicode.com/posts
 https://jsonplaceholder.typicode.com/posts/<id>
 https://jsonplaceholder.typicode.com/posts/<id>/comments
-Last updates: 9/23/18
+Last updates: 9/24/18
 author: Alex Bogdanovich
 """
 # -*- coding: utf-8 -*-
@@ -12,6 +12,7 @@ from os import path
 from time import strftime
 import requests
 import json
+import pandas
 
 
 class Blog(object):
@@ -42,13 +43,17 @@ class Blog(object):
         # Add console handler to logger
         stream_handler = logging.StreamHandler()
         stream_handler.setLevel(logging.DEBUG)
-        stream_handler.setFormatter(logging.Formatter('%(asctime)s %(message)s'))
+        stream_handler.setFormatter(
+            logging.Formatter('%(asctime)s %(message)s')
+        )
         self.logger.addHandler(stream_handler)
 
         # Add file handler to logger
         file_handler = logging.FileHandler(log_path)
         file_handler.setLevel(logging.DEBUG)
-        file_handler.setFormatter(logging.Formatter('%(asctime)s %(message)s'))
+        file_handler.setFormatter(
+            logging.Formatter('%(asctime)s %(message)s')
+        )
         self.logger.addHandler(file_handler)
 
     def log(self, _level='info', _str=None):
@@ -62,9 +67,15 @@ class Blog(object):
     def get_url(self, dto):
         """get url data"""
         if dto['method'] == 'post':
-            return requests.post(url=dto['url'], headers=dto['headers'], data=dto['payload'])
+            return requests.post(
+                url=dto['url'],
+                headers=dto['headers'],
+                data=dto['payload'])
         else:
-            return requests.get(url=dto['url'], headers=dto['headers'], data=dto['payload'])
+            return requests.get(
+                url=dto['url'],
+                headers=dto['headers'],
+                data=dto['payload'])
 
 
 def main():
